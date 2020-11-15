@@ -1,5 +1,5 @@
 import { dxfHeader, dxfJson } from "./dxf";
-import { END_SECTION, EOF, HEADER, SECTION, START } from "./strings";
+import { END_SECTION, EOF, HEADER, SECTION } from "./strings";
 
 export default class JsonParser {
 
@@ -10,7 +10,6 @@ export default class JsonParser {
     parseJson(dxf: dxfJson): string[] {
         const header = this.parseHeader(dxf.header);
         return [
-            START,
             ...header,
             EOF
         ];
