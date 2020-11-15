@@ -2,33 +2,26 @@ export interface dxfJson {
     header: dxfHeader
 }
 
+export type xyzTriplet = {
+    "x": number,
+    "y": number,
+    "z": number
+};
+
+export type xyPair = {
+    "x": number,
+    "y": number
+}
+
 export interface dxfHeader {
     "$ACADVER": string,
     "$ACADMAINTVER": number,
     "$DWGCODEPAGE": string,
-    "$INSBASE": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$EXTMIN": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$EXTMAX": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$LIMMIN": {
-        "x": number,
-        "y": number
-    },
-    "$LIMMAX": {
-        "x": number,
-        "y": number
-    },
+    "$INSBASE": xyzTriplet,
+    "$EXTMIN": xyzTriplet,
+    "$EXTMAX": xyzTriplet,
+    "$LIMMIN": xyPair,
+    "$LIMMAX": xyPair,
     "$ORTHOMODE": number,
     "$REGENMODE": number,
     "$FILLMODE": number,
@@ -162,102 +155,30 @@ export interface dxfHeader {
     "$SURFV": number,
     "$UCSBASE": string,
     "$UCSNAME": string,
-    "$UCSORG": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSXDIR": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSYDIR": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
+    "$UCSORG": xyzTriplet,
+    "$UCSXDIR": xyzTriplet,
+    "$UCSYDIR": xyzTriplet,
     "$UCSORTHOREF": string,
     "$UCSORTHOVIEW": number,
-    "$UCSORGTOP": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSORGBOTTOM": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSORGLEFT": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSORGRIGHT": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSORGFRONT": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$UCSORGBACK": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
+    "$UCSORGTOP": xyzTriplet,
+    "$UCSORGBOTTOM": xyzTriplet,
+    "$UCSORGLEFT": xyzTriplet,
+    "$UCSORGRIGHT": xyzTriplet,
+    "$UCSORGFRONT": xyzTriplet,
+    "$UCSORGBACK": xyzTriplet,
     "$PUCSBASE": string,
     "$PUCSNAME": string,
-    "$PUCSORG": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSXDIR": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSYDIR": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
+    "$PUCSORG": xyzTriplet,
+    "$PUCSXDIR": xyzTriplet,
+    "$PUCSYDIR": xyzTriplet,
     "$PUCSORTHOREF": string,
     "$PUCSORTHOVIEW": number,
-    "$PUCSORGTOP": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSORGBOTTOM": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSORGLEFT": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSORGRIGHT": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSORGFRONT": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PUCSORGBACK": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
+    "$PUCSORGTOP": xyzTriplet,
+    "$PUCSORGBOTTOM": xyzTriplet,
+    "$PUCSORGLEFT": xyzTriplet,
+    "$PUCSORGRIGHT": xyzTriplet,
+    "$PUCSORGFRONT": xyzTriplet,
+    "$PUCSORGBACK": xyzTriplet,
     "$USERI1": number,
     "$USERI2": number,
     "$USERI3": number,
@@ -273,30 +194,12 @@ export interface dxfHeader {
     "$SHADEDIF": number,
     "$TILEMODE": number,
     "$MAXACTVP": number,
-    "$PINSBASE": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
+    "$PINSBASE": xyzTriplet,
     "$PLIMCHECK": number,
-    "$PEXTMIN": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PEXTMAX": {
-        "x": number,
-        "y": number,
-        "z": number
-    },
-    "$PLIMMIN": {
-        "x": number,
-        "y": number
-    },
-    "$PLIMMAX": {
-        "x": number,
-        "y": number
-    },
+    "$PEXTMIN": xyzTriplet,
+    "$PEXTMAX": xyzTriplet,
+    "$PLIMMIN": xyPair,
+    "$PLIMMAX": xyPair,
     "$UNITMODE": number,
     "$VISRETAIN": number,
     "$PLINEGEN": number,
@@ -369,3 +272,8 @@ export interface dxfHeader {
     "$INTERFEREOBJVS"?: number,
     "$INTERFEREVPVS"?: number
 }
+
+export type dxfHeaderKeys = keyof dxfHeader;
+
+export type numberPair = [number, number];
+export type numberTriplet = [number, number, number];

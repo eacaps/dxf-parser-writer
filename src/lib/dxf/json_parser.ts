@@ -1,4 +1,4 @@
-import { dxfHeader, dxfJson } from "./dxf";
+import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair } from "./dxf";
 import { END_SECTION, EOF, HEADER, SECTION } from "./strings";
 
 export default class JsonParser {
@@ -16,18 +16,53 @@ export default class JsonParser {
     }
 
     parseHeader(header: dxfHeader): string[] {
-        const values = [];
+        const values: string[] = [];
+        // dope: https://effectivetypescript.com/2020/05/26/iterate-objects/
+        let k: keyof typeof header;
+        for (k in header) {
+            const value = header[k];
+            const type = dxfHeaderGroupType[k];
+            const typeValueArray = this.getHeaderValueString(type, value);
 
+            if (typeValueArray.length > 0) {
+                values.push('  ' + 9);
+                values.push(k);
+                values.push(...typeValueArray);
+            }
+        }
         return [
             SECTION,
             HEADER,
+            ...values,
             END_SECTION
         ];
     }
+
+    getHeaderValueString(type: number | numberPair | numberTriplet, value: string | number | boolean | xyzTriplet | xyPair | undefined): string[] {
+        let values: string[] = [];
+        if (typeof type === 'number') {
+            values.push(' ' + type);
+            values.push('' + value);
+        } else if (Array.isArray(type) && type.length == 2) {
+            const val = value as xyPair;
+            values.push(' ' + type[0]);
+            values.push('' + val.x);
+            values.push(' ' + type[1]);
+            values.push('' + val.y);
+        } else if (Array.isArray(type) && type.length == 3) {
+            const val = value as xyzTriplet;
+            values.push(' ' + type[0]);
+            values.push('' + val.x);
+            values.push(' ' + type[1]);
+            values.push('' + val.y);
+            values.push(' ' + type[2]);
+            values.push('' + val.z);
+        }
+        return values;
+    }
 }
 
-
-export const dxfHeaderGroupType = {
+export const dxfHeaderGroupType: { [key in dxfHeaderKeys]: number | numberPair | numberTriplet } = {
     "$ACADVER": 1,
     "$ACADMAINTVER": 70,
     "$DWGCODEPAGE": 3,
@@ -119,7 +154,6 @@ export const dxfHeaderGroupType = {
     "$DIMLWD": 70,
     "$DIMLWE": 70,
     "$DIMTMOVE": 70,
-    "$DIPSILH": 70,
     "$DRAGVS": 349,
     "$LUNITS": 70,
     "$LUPREC": 70,
@@ -228,7 +262,6 @@ export const dxfHeaderGroupType = {
     "$VERSIONGUID": 2,
     "$EXTNAMES": 290,
     "$PSVPSCALE": 40,
-    "$OLESTARTUP": false,
     "$SORTENTS": 280,
     "$INDEXCTL": 280,
     "$HIDETEXT": 290,
@@ -240,8 +273,6 @@ export const dxfHeaderGroupType = {
     "$INTERSECTIONCOLOR": 70,
     "$DIMASSOC": 280,
     "$PROJECTNAME": 1,
-    "$CAMERADISPLAY": false,
-    "$REALWORLDSCALE": true,
     "$INTERFERECOLOR": 62,
     "$CSHADOW": 280,
     "$SHADOWPLANELOCATION": 40,
@@ -283,5 +314,8 @@ export const dxfHeaderGroupType = {
     "$SOLIDHIST": 280,
     "$SHOWHIST": 280,
     "$DWFFRAME": 280,
-    "$DGNFRAME": 280
+    "$DGNFRAME": 280,
+    "$CAMERADISPLAY": 290,
+    "$REALWORLDSCALE": 290,
+    "$OLESTARTUP": 290
 }
