@@ -38,18 +38,49 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * getHeaderValueString checks the type for this key and returns a string array containing the type(s) and the value(s) based on the type
+     * @param type the type for this key
+     * @param value the value from the json
+     */
     getHeaderValueString(type: number | numberPair | numberTriplet, value: string | number | boolean | xyzTriplet | xyPair | undefined): string[] {
         let values: string[] = [];
+        /*
+            $ACADVER
+             1
+            AC1024
+              9
+        */
         if (typeof type === 'number') {
             values.push(' ' + type);
             values.push('' + value);
-        } else if (Array.isArray(type) && type.length == 2) {
+        }
+        /*
+            $PLIMMIN
+             10
+            0.0
+             20
+            0.0
+              9
+        */
+        else if (Array.isArray(type) && type.length == 2) {
             const val = value as xyPair;
             values.push(' ' + type[0]);
             values.push('' + val.x);
             values.push(' ' + type[1]);
             values.push('' + val.y);
-        } else if (Array.isArray(type) && type.length == 3) {
+        }
+        /*
+            $EXTMIN
+             10
+            1.000000000000000E+20
+             20
+            1.000000000000000E+20
+             30
+            1.000000000000000E+20
+              9
+         */
+        else if (Array.isArray(type) && type.length == 3) {
             const val = value as xyzTriplet;
             values.push(' ' + type[0]);
             values.push('' + val.x);
