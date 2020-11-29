@@ -1,5 +1,5 @@
-import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair } from "./dxf";
-import { END_SECTION, EOF, HEADER, SECTION } from "./strings";
+import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport } from "./dxf";
+import { AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, ENDTAB, END_SECTION, EOF, HEADER, SECTION, TABLE, TABLES, VPORT } from "./strings";
 
 export default class JsonParser {
 
@@ -13,6 +13,178 @@ export default class JsonParser {
             ...header,
             EOF
         ];
+    }
+
+    parseTables(tables: dxfTables): string[] {
+        const viewPortContainerValues = this.parseViewPortContainer(tables.viewPort);
+        return [
+            SECTION,
+            TABLES,
+            ...viewPortContainerValues,
+            END_SECTION
+        ];
+    }
+
+    parseViewPortContainer(viewPort: dxfViewportContainer): string[] {
+        const blockValues = this.parseBlockValues(viewPort);
+        const viewports = this.parseViewPorts(viewPort.viewPorts);
+        return [
+            TABLE,
+            VPORT,
+            ...blockValues,
+            BLANK_AC_DB_SYMBOL_TABLE,
+            TABLE,
+            `  5`,
+            `29`,
+            `330`,
+            `8`,
+            ...viewports,
+            ENDTAB
+        ];
+    }
+    parseViewPorts(viewPorts: dxfViewport[]): string[] {
+        const values: string[] = [];
+        for (const viewPort of viewPorts) {
+            values.push(AC_DB_SYMBOL_TABLE_RECORD);
+            values.push(AC_DB_VIEWPORT_TABLE_RECORD);
+            values.push(`  2`);
+            values.push(viewPort.name);
+            values.push(` 70`);
+            values.push(`     0`);
+
+            values.push(...this.writePair(` 10`, ` 20`, viewPort.lowerLeftCorner));
+
+            values.push(...this.writePair(` 11`, ` 21`, viewPort.upperRightCorner));
+
+            values.push(...this.writePair(` 12`, ` 22`, viewPort.center));
+
+            values.push(...this.writePair(` 13`, ` 23`, viewPort.snapBasePoint));
+
+            values.push(...this.writePair(` 14`, ` 24`, viewPort.snapSpacing));
+
+            values.push(...this.writePair(` 15`, ` 25`, viewPort.gridSpacing));
+
+            values.push(...this.writeTriplet(` 16`, ` 26`, ` 36`, viewPort.viewDirectionFromTarget));
+
+            values.push(...this.writeTriplet(` 17`, ` 27`, ` 37`, viewPort.viewTarget));
+
+            // 40 and 41 are missing from the json, i dont know if this is important
+            // values.push(` 40`);
+            // values.push(`124.4170638339396`);
+            // values.push(` 41`);
+            // values.push(`2.234395750332005`)
+
+            values.push(` 42`);
+            values.push('' + viewPort.lensLength);
+            values.push(` 43`);
+            values.push('' + viewPort.frontClippingPlane);
+            values.push(` 44`);
+            values.push('' + viewPort.backClippingPlane);
+            values.push(` 50`);
+            values.push('' + viewPort.snapRotationAngle);
+            values.push(` 51`);
+            values.push('' + viewPort.viewTwistAngle);
+
+            // 71 - 78 are in the dxf but not the json
+            /**
+             71
+                0
+            72
+            100
+            73
+                1
+            74
+                3
+            75
+                0
+            76
+                0
+            77
+                0
+            78
+                0
+             */
+
+            values.push(`281`);
+            values.push(`     ${viewPort.renderMode}`);
+
+            /**
+             65
+                1
+             */
+
+            values.push(...this.writeTriplet(`110`, `120`, `130`, viewPort.ucsOrigin));
+            values.push(...this.writeTriplet(`111`, `121`, `131`, viewPort.ucsXAxis));
+            values.push(...this.writeTriplet(`110`, `120`, `130`, viewPort.ucsYAxis));
+
+            values.push(` 79`);
+            values.push(`     ${viewPort.orthographicType}`);
+
+            /**
+            146
+            0.0
+            348
+            2F
+             60
+                 3
+             61
+                 5
+             */
+            if (viewPort.defaultLightingOn) {
+                values.push(`292`);
+                values.push(`     1`);
+            }
+            /**
+            282
+                 1
+            141
+            0.0
+            142
+            0.0
+             */
+            values.push(` 63`);
+            values.push(`   ${viewPort.ambientColor}`);
+            /**
+            361
+            3F
+            1001
+            ACAD_NAV_VCDISPLAY
+            1070
+                3
+             */
+        }
+        return values;
+    }
+
+    writePair(xString: string, yString: string, pair: xyPair): string[] {
+        const values = [];
+        values.push(xString);
+        values.push('' + pair.x);
+        values.push(yString);
+        values.push('' + pair.y);
+        return values;
+    }
+
+    writeTriplet(xString: string, yString: string, zString: string, triplet: xyzTriplet): string[] {
+        const values = [];
+        values.push(xString);
+        values.push('' + triplet.x);
+        values.push(yString);
+        values.push('' + triplet.y);
+        values.push(zString);
+        values.push('' + triplet.z);
+        return values;
+    }
+
+    parseBlockValues(block: dxfBlock): string[] {
+        const values = [];
+        // if(block.handle) {
+        values.push(`  5`);
+        values.push(block.handle);
+        // }
+        values.push(`330`);
+        values.push(block.ownerHandle);
+        return values;
     }
 
     parseHeader(header: dxfHeader): string[] {

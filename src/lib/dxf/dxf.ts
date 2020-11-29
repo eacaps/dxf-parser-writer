@@ -13,6 +13,68 @@ export type xyPair = {
     "y": number
 }
 
+export interface dxfBlock {
+    handle: string;
+    ownerHandle: string;
+}
+
+export interface dxfTables {
+    viewPort: dxfViewportContainer;
+    lineType: dxfLineTypeContainer;
+    layer: dxfLayerContainer;
+}
+
+export interface dxfViewportContainer extends dxfBlock {
+    viewPorts: dxfViewport[];
+}
+
+export interface dxfViewport {
+    name: string;
+    ownerHandle: string;
+    lowerLeftCorner: xyPair;
+    upperRightCorner: xyPair;
+    center: xyPair;
+    snapBasePoint: xyPair;
+    snapSpacing: xyPair;
+    gridSpacing: xyPair;
+    viewDirectionFromTarget: xyzTriplet;
+    viewTarget: xyzTriplet;
+    lensLength: number;
+    frontClippingPlane: number;
+    backClippingPlane: number;
+    snapRotationAngle: number;
+    viewTwistAngle: number;
+    renderMode: number;
+    ucsOrigin: xyzTriplet;
+    ucsXAxis: xyzTriplet;
+    ucsYAxis: xyzTriplet;
+    orthographicType: number;
+    defaultLightingOn: boolean;
+    ambientColor: number;
+}
+
+export interface dxfLineTypeContainer extends dxfBlock {
+    lineTypes: { [key: string]: dxfLineType }
+}
+
+export interface dxfLineType {
+    name: string;
+    description: string;
+    patternLength: number;
+}
+
+export interface dxfLayerContainer extends dxfBlock {
+    layers: { [key: string]: dxfLayer };
+}
+
+export interface dxfLayer {
+    name: string;
+    frozen: boolean;
+    visible: boolean;
+    colorIndex: number;
+    color: number;
+}
+
 export interface dxfHeader {
     "$ACADVER": string,
     "$ACADMAINTVER": number,
