@@ -1,5 +1,5 @@
-import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject, dxfLayerContainer, layerObject } from "./dxf";
-import { AC_DB_LAYER_TABLE_RECORD, AC_DB_LINETYPE_TABLE_RECORD, AC_DB_SYMBOL_TABLE, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, ENDTAB, END_SECTION, EOF, HEADER, INNER_LAYER, INNER_LTYPE, INNER_VPORT, LAYER, LTYPE, SECTION, TABLE, TABLES, VPORT } from "./strings";
+import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject, dxfLayerContainer, layerObject, blockTypeObject } from "./dxf";
+import { AC_DB_BLOCK_BEGIN, AC_DB_BLOCK_END, AC_DB_ENTITY, AC_DB_LAYER_TABLE_RECORD, AC_DB_LINETYPE_TABLE_RECORD, AC_DB_SYMBOL_TABLE, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, BLOCK, BLOCKS, ENDTAB, END_BLOCK, END_SECTION, EOF, HEADER, INNER_LAYER, INNER_LTYPE, INNER_VPORT, LAYER, LTYPE, SECTION, TABLE, TABLES, VPORT } from "./strings";
 
 export default class JsonParser {
 
@@ -9,20 +9,78 @@ export default class JsonParser {
 
     parseJson(dxf: dxfJson): string[] {
         const header = this.parseHeader(dxf.header);
+        const tables = this.parseTables(dxf.tables);
+        const blocks = this.parseBlocks(dxf.blocks);
         return [
             ...header,
+            ...tables,
+            ...blocks,
             EOF
         ];
+    }
+
+    parseBlocks(blocks: blockTypeObject): string[] {
+        const blockValues = this.parseBlocksObject(blocks);
+        return [
+            SECTION,
+            BLOCKS,
+            ...blockValues,
+            END_SECTION
+        ]
+    }
+
+    parseBlocksObject(blocks: blockTypeObject): string[] {
+        const values: string[] = [];
+        for (const k in blocks) {
+            const block = blocks[k];
+            values.push(BLOCK);
+            values.push(`  5`);
+            values.push(block.handle);
+            values.push(`330`);
+            values.push(block.ownerHandle);
+            values.push(AC_DB_ENTITY);
+            if (!block.name.includes('Model_Space')) {
+                values.push(` 67`);
+                values.push(`     1`);
+            }
+            values.push(`  8`);
+            values.push(block.layer);
+            values.push(AC_DB_BLOCK_BEGIN);
+            values.push(`  2`);
+            values.push(` 70`);
+            values.push(`     0`);
+            values.push(...this.writeTriplet('10', '20', '30', block.position));
+            values.push(`  3`);
+            values.push(block.name);
+            values.push(`  1`)
+            values.push(block.xrefPath)
+            values.push(END_BLOCK);
+            values.push(`  5`)
+            // this is an incremented version of handle??? 20 -> 21, 1C -> 1D
+            values.push(block.handle)
+            values.push(`330`)
+            values.push(block.ownerHandle)
+            if (!block.name.includes('Model_Space')) {
+                values.push(` 67`);
+                values.push(`     1`);
+            }
+            values.push(`  8`);
+            values.push(block.layer);
+            values.push(AC_DB_BLOCK_END)
+        }
+        return values;
     }
 
     parseTables(tables: dxfTables): string[] {
         const viewPortContainerValues = this.parseViewPortContainer(tables.viewPort);
         const lineTypeContainerValues = this.parseLineTypeContainer(tables.lineType);
+        const layerContainerValues = this.parseLayerContainer(tables.layer);
         return [
             SECTION,
             TABLES,
             ...viewPortContainerValues,
             ...lineTypeContainerValues,
+            ...layerContainerValues,
             END_SECTION
         ];
     }
@@ -60,7 +118,18 @@ export default class JsonParser {
             values.push(` 70`);
             values.push(`     ${layer.frozen ? 1 : 0}`);
             values.push(` 62`)
-            values.push(`     ${layer.colorIndex}`)
+            values.push(`     ${layer.colorIndex}`);
+            values.push(`  6`);
+            // associated linetype name in the dxf file is always CONTINUOUS
+            values.push(`Continuous`);
+            values.push(`370`);
+            values.push(`    -3`);
+            values.push(`390`);
+            values.push(`F`);
+            values.push(`347`);
+            values.push(`3E`);
+            values.push(`348`);
+            values.push(`0`);
 
         }
         return values;
