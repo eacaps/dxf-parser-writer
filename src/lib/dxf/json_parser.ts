@@ -1,5 +1,5 @@
-import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject } from "./dxf";
-import { AC_DB_LINETYPE_TABLE_RECORD, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, ENDTAB, END_SECTION, EOF, HEADER, INNER_LTYPE, INNER_VPORT, LTYPE, SECTION, TABLE, TABLES, VPORT } from "./strings";
+import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject, dxfLayerContainer, layerObject } from "./dxf";
+import { AC_DB_LAYER_TABLE_RECORD, AC_DB_LINETYPE_TABLE_RECORD, AC_DB_SYMBOL_TABLE, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, ENDTAB, END_SECTION, EOF, HEADER, INNER_LAYER, INNER_LTYPE, INNER_VPORT, LAYER, LTYPE, SECTION, TABLE, TABLES, VPORT } from "./strings";
 
 export default class JsonParser {
 
@@ -22,8 +22,48 @@ export default class JsonParser {
             SECTION,
             TABLES,
             ...viewPortContainerValues,
+            ...lineTypeContainerValues,
             END_SECTION
         ];
+    }
+
+    parseLayerContainer(layer: dxfLayerContainer): string[] {
+        const blockValues = this.parseBlockValues(layer);
+        const layers = this.parseLayers(layer.layers, layer.handle);
+        const layerCount = Object.keys(layer.layers).length;
+
+        return [
+            TABLE,
+            LAYER,
+            ...blockValues,
+            AC_DB_SYMBOL_TABLE,
+            `     ${layerCount}`,
+            ...layers,
+            ENDTAB
+        ];
+    }
+
+    parseLayers(layerObject: layerObject, handle: string): string[] {
+        const values: string[] = [];
+        for (const k in layerObject) {
+            const layer = layerObject[k];
+            values.push(INNER_LAYER);
+            values.push(`  5`);
+            // dunno what this is, or if it has to be different
+            values.push(`10`);
+            values.push(`330`);
+            values.push(handle);
+            values.push(AC_DB_SYMBOL_TABLE_RECORD);
+            values.push(AC_DB_LAYER_TABLE_RECORD);
+            values.push(`  2`);
+            values.push(layer.name);
+            values.push(` 70`);
+            values.push(`     ${layer.frozen ? 1 : 0}`);
+            values.push(` 62`)
+            values.push(`     ${layer.colorIndex}`)
+
+        }
+        return values;
     }
 
     parseLineTypeContainer(lineType: dxfLineTypeContainer): string[] {
