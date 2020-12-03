@@ -1,5 +1,5 @@
-import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport } from "./dxf";
-import { AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, ENDTAB, END_SECTION, EOF, HEADER, SECTION, TABLE, TABLES, VPORT } from "./strings";
+import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject } from "./dxf";
+import { AC_DB_LINETYPE_TABLE_RECORD, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, ENDTAB, END_SECTION, EOF, HEADER, INNER_LTYPE, INNER_VPORT, LTYPE, SECTION, TABLE, TABLES, VPORT } from "./strings";
 
 export default class JsonParser {
 
@@ -17,6 +17,7 @@ export default class JsonParser {
 
     parseTables(tables: dxfTables): string[] {
         const viewPortContainerValues = this.parseViewPortContainer(tables.viewPort);
+        const lineTypeContainerValues = this.parseLineTypeContainer(tables.lineType);
         return [
             SECTION,
             TABLES,
@@ -25,26 +26,68 @@ export default class JsonParser {
         ];
     }
 
+    parseLineTypeContainer(lineType: dxfLineTypeContainer): string[] {
+        const blockValues = this.parseBlockValues(lineType);
+        const linetypes = this.parseLineTypes(lineType.lineTypes, lineType.handle);
+        return [
+            TABLE,
+            LTYPE,
+            ...blockValues,
+            BLANK_AC_DB_SYMBOL_TABLE,
+            ...linetypes,
+            ENDTAB
+        ];
+    }
+
+    parseLineTypes(lineTypeObject: lineTypeObject, handle: string): string[] {
+        const values: string[] = [];
+        for (const k in lineTypeObject) {
+            const lineType = lineTypeObject[k];
+            values.push(INNER_LTYPE);
+            values.push(`  5`)
+            values.push(`14`)
+            values.push(`330`)
+            values.push(handle)
+            values.push(AC_DB_SYMBOL_TABLE_RECORD);
+            values.push(AC_DB_LINETYPE_TABLE_RECORD);
+            values.push(`  2`);
+            values.push(lineType.name);
+            values.push(` 70`);
+            values.push(`     0`);
+            values.push(`  3`);
+            values.push(lineType.description);
+            values.push(` 72`);
+            values.push(`    65`);
+            values.push(` 73`);
+            values.push(`     0`);
+            values.push(` 40`);
+            // 0.0?
+            values.push(`${lineType.patternLength}`);
+        }
+        return values;
+    }
+
     parseViewPortContainer(viewPort: dxfViewportContainer): string[] {
         const blockValues = this.parseBlockValues(viewPort);
-        const viewports = this.parseViewPorts(viewPort.viewPorts);
+        const viewports = this.parseViewPorts(viewPort.viewPorts, viewPort.handle);
         return [
             TABLE,
             VPORT,
             ...blockValues,
             BLANK_AC_DB_SYMBOL_TABLE,
-            TABLE,
-            `  5`,
-            `29`,
-            `330`,
-            `8`,
             ...viewports,
             ENDTAB
         ];
     }
-    parseViewPorts(viewPorts: dxfViewport[]): string[] {
+
+    parseViewPorts(viewPorts: dxfViewport[], handle: string): string[] {
         const values: string[] = [];
         for (const viewPort of viewPorts) {
+            values.push(INNER_VPORT)
+            values.push(`  5`)
+            values.push(`29`)
+            values.push(`330`)
+            values.push(handle);
             values.push(AC_DB_SYMBOL_TABLE_RECORD);
             values.push(AC_DB_VIEWPORT_TABLE_RECORD);
             values.push(`  2`);
@@ -75,15 +118,15 @@ export default class JsonParser {
             // values.push(`2.234395750332005`)
 
             values.push(` 42`);
-            values.push('' + viewPort.lensLength);
+            values.push(`${viewPort.lensLength}`);
             values.push(` 43`);
-            values.push('' + viewPort.frontClippingPlane);
+            values.push(`${viewPort.frontClippingPlane}`);
             values.push(` 44`);
-            values.push('' + viewPort.backClippingPlane);
+            values.push(`${viewPort.backClippingPlane}`);
             values.push(` 50`);
-            values.push('' + viewPort.snapRotationAngle);
+            values.push(`${viewPort.snapRotationAngle}`);
             values.push(` 51`);
-            values.push('' + viewPort.viewTwistAngle);
+            values.push(`${viewPort.viewTwistAngle}`);
 
             // 71 - 78 are in the dxf but not the json
             /**
@@ -159,20 +202,20 @@ export default class JsonParser {
     writePair(xString: string, yString: string, pair: xyPair): string[] {
         const values = [];
         values.push(xString);
-        values.push('' + pair.x);
+        values.push(`${pair.x}`);
         values.push(yString);
-        values.push('' + pair.y);
+        values.push(`${pair.y}`);
         return values;
     }
 
     writeTriplet(xString: string, yString: string, zString: string, triplet: xyzTriplet): string[] {
         const values = [];
         values.push(xString);
-        values.push('' + triplet.x);
+        values.push(`${triplet.x}`);
         values.push(yString);
-        values.push('' + triplet.y);
+        values.push(`${triplet.y}`);
         values.push(zString);
-        values.push('' + triplet.z);
+        values.push(`${triplet.z}`);
         return values;
     }
 
@@ -225,7 +268,7 @@ export default class JsonParser {
         */
         if (typeof type === 'number') {
             values.push(' ' + type);
-            values.push('' + value);
+            values.push(`${value}`);
         }
         /*
             $PLIMMIN
@@ -238,9 +281,9 @@ export default class JsonParser {
         else if (Array.isArray(type) && type.length == 2) {
             const val = value as xyPair;
             values.push(' ' + type[0]);
-            values.push('' + val.x);
+            values.push(`${val.x}`);
             values.push(' ' + type[1]);
-            values.push('' + val.y);
+            values.push(`${val.y}`);
         }
         /*
             $EXTMIN
@@ -255,11 +298,11 @@ export default class JsonParser {
         else if (Array.isArray(type) && type.length == 3) {
             const val = value as xyzTriplet;
             values.push(' ' + type[0]);
-            values.push('' + val.x);
+            values.push(`${val.x}`);
             values.push(' ' + type[1]);
-            values.push('' + val.y);
+            values.push(`${val.y}`);
             values.push(' ' + type[2]);
-            values.push('' + val.z);
+            values.push(`${val.z}`);
         }
         return values;
     }
