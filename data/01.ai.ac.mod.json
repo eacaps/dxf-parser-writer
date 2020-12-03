@@ -1,0 +1,613 @@
+{
+  "header": {
+    "$ACADVER": "AC1027",
+    "$ACADMAINTVER": 125,
+    "$DWGCODEPAGE": "ANSI_1252",
+    "$LASTSAVEDBY": "Adam",
+    "$REQUIREDVERSIONS": 0,
+    "$INSBASE": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$EXTMIN": {
+      "x": 355.9999999109999,
+      "y": 228.9999999302503,
+      "z": 0
+    },
+    "$EXTMAX": {
+      "x": 405.9999998985001,
+      "y": 278.9999999427498,
+      "z": 0
+    },
+    "$LIMMIN": {
+      "x": 0,
+      "y": 0
+    },
+    "$LIMMAX": {
+      "x": 12,
+      "y": 9
+    },
+    "$ORTHOMODE": 0,
+    "$REGENMODE": 1,
+    "$FILLMODE": 1,
+    "$QTEXTMODE": 0,
+    "$MIRRTEXT": 1,
+    "$LTSCALE": 1,
+    "$ATTMODE": 1,
+    "$TEXTSIZE": 0.2,
+    "$TRACEWID": 0.05,
+    "$TEXTSTYLE": "Standard",
+    "$CLAYER": "0",
+    "$CELTYPE": "ByLayer",
+    "$CECOLOR": 256,
+    "$CELTSCALE": 1,
+    "$DISPSILH": 0,
+    "$DIMSCALE": 1,
+    "$DIMASZ": 0.18,
+    "$DIMEXO": 0.0625,
+    "$DIMDLI": 0.38,
+    "$DIMRND": 0,
+    "$DIMDLE": 0,
+    "$DIMEXE": 0.18,
+    "$DIMTP": 0,
+    "$DIMTM": 0,
+    "$DIMTXT": 0.18,
+    "$DIMCEN": 0.09,
+    "$DIMTSZ": 0,
+    "$DIMTOL": 0,
+    "$DIMLIM": 0,
+    "$DIMTIH": 1,
+    "$DIMTOH": 1,
+    "$DIMSE1": 0,
+    "$DIMSE2": 0,
+    "$DIMTAD": 0,
+    "$DIMZIN": 0,
+    "$DIMBLK": "",
+    "$DIMASO": 1,
+    "$DIMSHO": 1,
+    "$DIMPOST": "",
+    "$DIMAPOST": "",
+    "$DIMALT": 0,
+    "$DIMALTD": 2,
+    "$DIMALTF": 25.4,
+    "$DIMLFAC": 1,
+    "$DIMTOFL": 0,
+    "$DIMTVP": 0,
+    "$DIMTIX": 0,
+    "$DIMSOXD": 0,
+    "$DIMSAH": 0,
+    "$DIMBLK1": "",
+    "$DIMBLK2": "",
+    "$DIMSTYLE": "Standard",
+    "$DIMCLRD": 0,
+    "$DIMCLRE": 0,
+    "$DIMCLRT": 0,
+    "$DIMTFAC": 1,
+    "$DIMGAP": 0.09,
+    "$DIMJUST": 0,
+    "$DIMSD1": 0,
+    "$DIMSD2": 0,
+    "$DIMTOLJ": 1,
+    "$DIMTZIN": 0,
+    "$DIMALTZ": 0,
+    "$DIMALTTZ": 0,
+    "$DIMUPT": 0,
+    "$DIMDEC": 4,
+    "$DIMTDEC": 4,
+    "$DIMALTU": 2,
+    "$DIMALTTD": 2,
+    "$DIMTXSTY": "Standard",
+    "$DIMAUNIT": 0,
+    "$DIMADEC": 0,
+    "$DIMALTRND": 0,
+    "$DIMAZIN": 0,
+    "$DIMDSEP": 46,
+    "$DIMATFIT": 3,
+    "$DIMFRAC": 0,
+    "$DIMLDRBLK": "",
+    "$DIMLUNIT": 2,
+    "$DIMLWD": -2,
+    "$DIMLWE": -2,
+    "$DIMTMOVE": 0,
+    "$DIMFXL": 1,
+    "$DIMFXLON": 0,
+    "$DIMJOGANG": 0.7853981633974483,
+    "$DIMTFILL": 0,
+    "$DIMTFILLCLR": 0,
+    "$DIMARCSYM": 0,
+    "$DIMLTYPE": "",
+    "$DIMLTEX1": "",
+    "$DIMLTEX2": "",
+    "$DIMTXTDIRECTION": 0,
+    "$LUNITS": 2,
+    "$LUPREC": 4,
+    "$SKETCHINC": 0.1,
+    "$FILLETRAD": 0.5,
+    "$AUNITS": 0,
+    "$AUPREC": 0,
+    "$MENU": ".",
+    "$ELEVATION": 0,
+    "$PELEVATION": 0,
+    "$THICKNESS": 0,
+    "$LIMCHECK": 0,
+    "$CHAMFERA": 0.5,
+    "$CHAMFERB": 0.5,
+    "$CHAMFERC": 1,
+    "$CHAMFERD": 0,
+    "$SKPOLY": 0,
+    "$TDCREATE": 2459128.450902778,
+    "$TDUCREATE": 2459128.617579723,
+    "$TDUPDATE": 2459172.743159722,
+    "$TDUUPDATE": 2459172.951493056,
+    "$TDINDWG": 0.0017245486,
+    "$TDUSRTIMER": 0.0017245486,
+    "$USRTIMER": 1,
+    "$ANGBASE": 0,
+    "$ANGDIR": 0,
+    "$PDMODE": 0,
+    "$PDSIZE": 0,
+    "$PLINEWID": 0,
+    "$SPLFRAME": 0,
+    "$SPLINETYPE": 6,
+    "$SPLINESEGS": 8,
+    "$HANDSEED": "B6",
+    "$SURFTAB1": 6,
+    "$SURFTAB2": 6,
+    "$SURFTYPE": 6,
+    "$SURFU": 6,
+    "$SURFV": 6,
+    "$UCSBASE": "",
+    "$UCSNAME": "",
+    "$UCSORG": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSXDIR": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSYDIR": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "$UCSORTHOREF": "",
+    "$UCSORTHOVIEW": 0,
+    "$UCSORGTOP": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSORGBOTTOM": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSORGLEFT": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSORGRIGHT": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSORGFRONT": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$UCSORGBACK": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSBASE": "",
+    "$PUCSNAME": "",
+    "$PUCSORG": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSXDIR": {
+      "x": 1,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSYDIR": {
+      "x": 0,
+      "y": 1,
+      "z": 0
+    },
+    "$PUCSORTHOREF": "",
+    "$PUCSORTHOVIEW": 0,
+    "$PUCSORGTOP": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSORGBOTTOM": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSORGLEFT": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSORGRIGHT": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSORGFRONT": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PUCSORGBACK": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$USERI1": 0,
+    "$USERI2": 0,
+    "$USERI3": 0,
+    "$USERI4": 0,
+    "$USERI5": 0,
+    "$USERR1": 0,
+    "$USERR2": 0,
+    "$USERR3": 0,
+    "$USERR4": 0,
+    "$USERR5": 0,
+    "$WORLDVIEW": 1,
+    "$SHADEDGE": 3,
+    "$SHADEDIF": 70,
+    "$TILEMODE": 1,
+    "$MAXACTVP": 64,
+    "$PINSBASE": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "$PLIMCHECK": 0,
+    "$PEXTMIN": {
+      "x": 100000000000000000000,
+      "y": 100000000000000000000,
+      "z": 100000000000000000000
+    },
+    "$PEXTMAX": {
+      "x": -100000000000000000000,
+      "y": -100000000000000000000,
+      "z": -100000000000000000000
+    },
+    "$PLIMMIN": {
+      "x": 0,
+      "y": 0
+    },
+    "$PLIMMAX": {
+      "x": 12,
+      "y": 9
+    },
+    "$UNITMODE": 0,
+    "$VISRETAIN": 1,
+    "$PLINEGEN": 0,
+    "$PSLTSCALE": 1,
+    "$TREEDEPTH": 3020,
+    "$CMLSTYLE": "Standard",
+    "$CMLJUST": 0,
+    "$CMLSCALE": 1,
+    "$PROXYGRAPHICS": 1,
+    "$MEASUREMENT": 0,
+    "$CELWEIGHT": -1,
+    "$ENDCAPS": 0,
+    "$JOINSTYLE": 0,
+    "$LWDISPLAY": true,
+    "$INSUNITS": 4,
+    "$HYPERLINKBASE": "",
+    "$STYLESHEET": "",
+    "$XEDIT": true,
+    "$CEPSNTYPE": 0,
+    "$PSTYLEMODE": true,
+    "$FINGERPRINTGUID": "{CA8BF179-32F4-46F8-99A3-0635FD2161AE}",
+    "$VERSIONGUID": "{9B20C2A5-49C1-0745-BB2A-4802A8357905}",
+    "$EXTNAMES": true,
+    "$PSVPSCALE": 0,
+    "$OLESTARTUP": false,
+    "$SORTENTS": 127,
+    "$INDEXCTL": 0,
+    "$HIDETEXT": 1,
+    "$XCLIPFRAME": 2,
+    "$HALOGAP": 0,
+    "$OBSCOLOR": 257,
+    "$OBSLTYPE": 0,
+    "$INTERSECTIONDISPLAY": 0,
+    "$INTERSECTIONCOLOR": 257,
+    "$DIMASSOC": 2,
+    "$PROJECTNAME": "",
+    "$CAMERADISPLAY": false,
+    "$LENSLENGTH": 50,
+    "$CAMERAHEIGHT": 0,
+    "$STEPSPERSEC": 2,
+    "$STEPSIZE": 6,
+    "$3DDWFPREC": 2,
+    "$PSOLWIDTH": 0.25,
+    "$PSOLHEIGHT": 4,
+    "$LOFTANG1": 1.570796326794897,
+    "$LOFTANG2": 1.570796326794897,
+    "$LOFTMAG1": 0,
+    "$LOFTMAG2": 0,
+    "$LOFTPARAM": 7,
+    "$LOFTNORMALS": 1,
+    "$LATITUDE": 37.795,
+    "$LONGITUDE": -122.394,
+    "$NORTHDIRECTION": 0,
+    "$TIMEZONE": -8000,
+    "$LIGHTGLYPHDISPLAY": 1,
+    "$TILEMODELIGHTSYNCH": 1,
+    "$CMATERIAL": "3C",
+    "$SOLIDHIST": 1,
+    "$SHOWHIST": 1,
+    "$DWFFRAME": 2,
+    "$DGNFRAME": 2,
+    "$REALWORLDSCALE": true,
+    "$INTERFERECOLOR": 256,
+    "$INTERFEREOBJVS": "33",
+    "$INTERFEREVPVS": "66",
+    "$CSHADOW": 0,
+    "$SHADOWPLANELOCATION": 0
+  },
+  "tables": {
+    "viewPort": {
+      "handle": "8",
+      "ownerHandle": "0",
+      "viewPorts": [
+        {
+          "ownerHandle": "8",
+          "name": "*Active",
+          "lowerLeftCorner": {
+            "x": 0,
+            "y": 0
+          },
+          "upperRightCorner": {
+            "x": 1,
+            "y": 1
+          },
+          "center": {
+            "x": 16.45657063530575,
+            "y": 28.93326827201672
+          },
+          "snapBasePoint": {
+            "x": 0,
+            "y": 0
+          },
+          "snapSpacing": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "gridSpacing": {
+            "x": 0.5,
+            "y": 0.5
+          },
+          "viewDirectionFromTarget": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "viewTarget": {
+            "x": 380.99999990475,
+            "y": 253.9999999365,
+            "z": 0
+          },
+          "lensLength": 50,
+          "frontClippingPlane": 0,
+          "backClippingPlane": 0,
+          "snapRotationAngle": 0,
+          "viewTwistAngle": 0,
+          "renderMode": 0,
+          "ucsOrigin": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "ucsXAxis": {
+            "x": 1,
+            "y": 0,
+            "z": 0
+          },
+          "ucsYAxis": {
+            "x": 0,
+            "y": 1,
+            "z": 0
+          },
+          "orthographicType": 0,
+          "defaultLightingOn": true,
+          "ambientColor": 250
+        }
+      ]
+    },
+    "lineType": {
+      "handle": "5",
+      "ownerHandle": "0",
+      "lineTypes": {
+        "ByBlock": {
+          "name": "ByBlock",
+          "description": "",
+          "patternLength": 0
+        },
+        "ByLayer": {
+          "name": "ByLayer",
+          "description": "",
+          "patternLength": 0
+        },
+        "Continuous": {
+          "name": "Continuous",
+          "description": "Solid line",
+          "patternLength": 0
+        }
+      }
+    },
+    "layer": {
+      "handle": "2",
+      "ownerHandle": "0",
+      "layers": {
+        "0": {
+          "name": "0",
+          "frozen": false,
+          "visible": true,
+          "colorIndex": 7,
+          "color": 16777215
+        },
+        "wafer": {
+          "name": "wafer",
+          "frozen": false,
+          "visible": true,
+          "colorIndex": 7,
+          "color": 16777215
+        },
+        "fingers": {
+          "name": "fingers",
+          "frozen": false,
+          "visible": true,
+          "colorIndex": 7,
+          "color": 16777215
+        },
+        "rear_fingers": {
+          "name": "rear_fingers",
+          "frozen": false,
+          "visible": true,
+          "colorIndex": 7,
+          "color": 16777215
+        }
+      }
+    }
+  },
+  "blocks": {
+    "*Model_Space": {
+      "handle": "20",
+      "ownerHandle": "1F",
+      "layer": "0",
+      "name": "*Model_Space",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "name2": "*Model_Space",
+      "xrefPath": ""
+    },
+    "*Paper_Space": {
+      "handle": "1C",
+      "ownerHandle": "1B",
+      "paperSpace": true,
+      "layer": "0",
+      "name": "*Paper_Space",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "name2": "*Paper_Space",
+      "xrefPath": ""
+    },
+    "*Paper_Space0": {
+      "handle": "24",
+      "ownerHandle": "23",
+      "paperSpace": true,
+      "layer": "0",
+      "name": "*Paper_Space0",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "name2": "*Paper_Space0",
+      "xrefPath": ""
+    }
+  },
+  "entities": [
+    {
+      "type": "LWPOLYLINE",
+      "vertices": [
+        {
+          "x": 360.039243398808,
+          "y": 261.3257682561817
+        },
+        {
+          "x": 360.039243398808,
+          "y": 261.2657682561815
+        },
+        {
+          "x": 400.0392434088083,
+          "y": 261.2657682561815
+        },
+        {
+          "x": 400.0392434088083,
+          "y": 261.3257682561817
+        }
+      ],
+      "handle": "F8",
+      "ownerHandle": "1F",
+      "layer": "fingers",
+      "shape": true,
+      "hasContinuousLinetypePattern": false
+    },
+    {
+      "type": "LWPOLYLINE",
+      "vertices": [
+        {
+          "x": 356.9999999107503,
+          "y": 277.9999999304997
+        },
+        {
+          "x": 404.9999998987496,
+          "y": 277.9999999304997
+        },
+        {
+          "x": 404.9999998987496,
+          "y": 229.9999999425003
+        },
+        {
+          "x": 356.9999999107503,
+          "y": 229.9999999425003
+        }
+      ],
+      "handle": "F9",
+      "ownerHandle": "1F",
+      "layer": "rear_fingers",
+      "shape": true,
+      "hasContinuousLinetypePattern": false
+    },
+    {
+      "type": "LWPOLYLINE",
+      "vertices": [
+        {
+          "x": 355.9999999109999,
+          "y": 278.9999834427507
+        },
+        {
+          "x": 405.9999998985001,
+          "y": 278.9999834427507
+        },
+        {
+          "x": 405.9999998985001,
+          "y": 229.0000164302512
+        },
+        {
+          "x": 355.9999999109999,
+          "y": 229.0000164302512
+        }
+      ],
+      "handle": "FA",
+      "ownerHandle": "1F",
+      "layer": "wafer",
+      "shape": true,
+      "hasContinuousLinetypePattern": false
+    }
+  ]
+}
