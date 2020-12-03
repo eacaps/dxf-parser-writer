@@ -1,5 +1,22 @@
 export interface dxfJson {
-    header: dxfHeader
+    header: dxfHeader,
+    tables: {
+        viewPort: dxfViewportContainer,
+        lineType: dxfLineTypeContainer,
+        layer: dxfLayerContainer
+    }
+    blocks: blockTypeObject
+}
+
+export interface blockTypeObject { [key: string]: blockObject };
+
+export interface blockObject extends dxfBlock {
+    layer: string;
+    paperSpace?: boolean;
+    name: string;
+    position: xyzTriplet;
+    name2: string;
+    xrefPath: string;
 }
 
 export type xyzTriplet = {

@@ -56,3 +56,21 @@ LAYER`;
 
 export const INNER_LAYER = `  0
 LAYER`
+
+export const BLOCKS = `  2
+BLOCKS`
+
+export const BLOCK = `  0
+BLOCK`
+
+export const AC_DB_ENTITY = `100
+AcDbEntity`
+
+export const AC_DB_BLOCK_BEGIN = `100
+AcDbBlockBegin`;
+
+export const END_BLOCK = `  0
+ENDBLK`
+
+export const AC_DB_BLOCK_END = `100
+AcDbBlockEnd`
