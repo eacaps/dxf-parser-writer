@@ -65,8 +65,10 @@ export interface dxfLineType {
     patternLength: number;
 }
 
+export interface layerObject { [key: string]: dxfLayer };
+
 export interface dxfLayerContainer extends dxfBlock {
-    layers: { [key: string]: dxfLayer };
+    layers: layerObject;
 }
 
 export interface dxfLayer {

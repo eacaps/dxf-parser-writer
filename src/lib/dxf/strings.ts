@@ -23,6 +23,9 @@ VPORT`;
 export const INNER_VPORT = `  0
 VPORT`
 
+export const AC_DB_SYMBOL_TABLE = `AcDbSymbolTable
+70`;
+
 export const BLANK_AC_DB_SYMBOL_TABLE = `AcDbSymbolTable
  70
      1`;
@@ -44,3 +47,12 @@ AcDbSymbolTableRecord`;
 
 export const AC_DB_LINETYPE_TABLE_RECORD = `100
 AcDbLinetypeTableRecord`;
+
+export const AC_DB_LAYER_TABLE_RECORD = `100
+AcDbLayerTableRecord`
+
+export const LAYER = `  2
+LAYER`;
+
+export const INNER_LAYER = `  0
+LAYER`
