@@ -53,8 +53,10 @@ export interface dxfViewport {
     ambientColor: number;
 }
 
+export interface lineTypeObject { [key: string]: dxfLineType };
+
 export interface dxfLineTypeContainer extends dxfBlock {
-    lineTypes: { [key: string]: dxfLineType }
+    lineTypes: lineTypeObject
 }
 
 export interface dxfLineType {
