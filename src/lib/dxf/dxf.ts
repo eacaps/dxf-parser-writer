@@ -5,7 +5,8 @@ export interface dxfJson {
         lineType: dxfLineTypeContainer,
         layer: dxfLayerContainer
     }
-    blocks: blockTypeObject
+    blocks: blockTypeObject,
+    entities: dxfEntity[]
 }
 
 export interface blockTypeObject { [key: string]: blockObject };
@@ -17,6 +18,24 @@ export interface blockObject extends dxfBlock {
     position: xyzTriplet;
     name2: string;
     xrefPath: string;
+}
+
+export interface dxfEntity extends dxfBlock { };
+
+export const LWPOLYLINE = 'LWPOLYLINE';
+
+export type shapeType = 'LWPOLYLINE';
+
+export interface shapeEntity extends dxfEntity {
+    type: shapeType;
+    vertices: xyPair[];
+    layer: string;
+    shape: boolean;
+    hasContinuousLinetypePattern: boolean;
+}
+
+export function isShapeEntity(thing: any): thing is shapeEntity {
+    return thing.type && thing.type == LWPOLYLINE;
 }
 
 export type xyzTriplet = {

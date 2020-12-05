@@ -74,3 +74,12 @@ ENDBLK`
 
 export const AC_DB_BLOCK_END = `100
 AcDbBlockEnd`
+
+export const ENTITIES = `  2
+ENTITIES`
+
+export const LWPOLYLINE = `  0
+LWPOLYLINE`
+
+export const AC_DB_POLYLINE = `100
+AcDbPolyline`
