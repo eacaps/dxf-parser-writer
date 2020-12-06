@@ -22,8 +22,6 @@ export interface blockObject extends dxfBlock {
 
 export interface dxfEntity extends dxfBlock { };
 
-export const LWPOLYLINE = 'LWPOLYLINE';
-
 export type shapeType = 'LWPOLYLINE';
 
 export interface shapeEntity extends dxfEntity {
@@ -35,7 +33,7 @@ export interface shapeEntity extends dxfEntity {
 }
 
 export function isShapeEntity(thing: any): thing is shapeEntity {
-    return thing.type && thing.type == LWPOLYLINE;
+    return thing.type && thing.type == 'LWPOLYLINE';
 }
 
 export type xyzTriplet = {
