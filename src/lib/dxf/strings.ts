@@ -21,7 +21,7 @@ export const VPORT = `  2
 VPORT`;
 
 export const INNER_VPORT = `  0
-VPORT`
+VPORT`;
 
 export const AC_DB_SYMBOL_TABLE = `AcDbSymbolTable
 70`;
@@ -34,7 +34,7 @@ export const LTYPE = `  2
 LTYPE`;
 
 export const INNER_LTYPE = `  0
-LTYPE`
+LTYPE`;
 
 export const ENDTAB = `  0
 ENDTAB`;
@@ -49,37 +49,37 @@ export const AC_DB_LINETYPE_TABLE_RECORD = `100
 AcDbLinetypeTableRecord`;
 
 export const AC_DB_LAYER_TABLE_RECORD = `100
-AcDbLayerTableRecord`
+AcDbLayerTableRecord`;
 
 export const LAYER = `  2
 LAYER`;
 
 export const INNER_LAYER = `  0
-LAYER`
+LAYER`;
 
 export const BLOCKS = `  2
-BLOCKS`
+BLOCKS`;
 
 export const BLOCK = `  0
-BLOCK`
+BLOCK`;
 
 export const AC_DB_ENTITY = `100
-AcDbEntity`
+AcDbEntity`;
 
 export const AC_DB_BLOCK_BEGIN = `100
 AcDbBlockBegin`;
 
 export const END_BLOCK = `  0
-ENDBLK`
+ENDBLK`;
 
 export const AC_DB_BLOCK_END = `100
-AcDbBlockEnd`
+AcDbBlockEnd`;
 
 export const ENTITIES = `  2
-ENTITIES`
+ENTITIES`;
 
 export const LWPOLYLINE = `  0
-LWPOLYLINE`
+LWPOLYLINE`;
 
 export const AC_DB_POLYLINE = `100
-AcDbPolyline`
+AcDbPolyline`;
