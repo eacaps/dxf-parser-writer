@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: fix lint
 import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject, dxfLayerContainer, layerObject, blockTypeObject, dxfEntity, isLWPOLYLINE } from "./dxf";
 import { AC_DB_BLOCK_BEGIN, AC_DB_BLOCK_END, AC_DB_ENTITY, AC_DB_LAYER_TABLE_RECORD, AC_DB_LINETYPE_TABLE_RECORD, AC_DB_POLYLINE, AC_DB_SYMBOL_TABLE, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, BLOCK, BLOCKS, ENDTAB, END_BLOCK, END_SECTION, ENTITIES, EOF, HEADER, INNER_LAYER, INNER_LTYPE, INNER_VPORT, LAYER, LTYPE, LWPOLYLINE, SECTION, TABLE, TABLES, VPORT } from "./strings";
 

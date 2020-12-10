@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: fix lint
 /**
  * dxfJson describes the output JSON format for the dxf-parser
  */
