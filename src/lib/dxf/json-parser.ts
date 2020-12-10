@@ -1,4 +1,4 @@
-import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject, dxfLayerContainer, layerObject, blockTypeObject, dxfEntity, isShapeEntity } from "./dxf";
+import { dxfHeader, dxfJson, dxfHeaderKeys, numberTriplet, numberPair, xyzTriplet, xyPair, dxfTables, dxfBlock, dxfViewportContainer, dxfViewport, dxfLineTypeContainer, lineTypeObject, dxfLayerContainer, layerObject, blockTypeObject, dxfEntity, isLWPOLYLINE } from "./dxf";
 import { AC_DB_BLOCK_BEGIN, AC_DB_BLOCK_END, AC_DB_ENTITY, AC_DB_LAYER_TABLE_RECORD, AC_DB_LINETYPE_TABLE_RECORD, AC_DB_POLYLINE, AC_DB_SYMBOL_TABLE, AC_DB_SYMBOL_TABLE_RECORD, AC_DB_VIEWPORT_TABLE_RECORD, BLANK_AC_DB_SYMBOL_TABLE, BLOCK, BLOCKS, ENDTAB, END_BLOCK, END_SECTION, ENTITIES, EOF, HEADER, INNER_LAYER, INNER_LTYPE, INNER_VPORT, LAYER, LTYPE, LWPOLYLINE, SECTION, TABLE, TABLES, VPORT } from "./strings";
 
 export default class JsonParser {
@@ -29,27 +29,29 @@ export default class JsonParser {
             END_SECTION
         ];
     }
+
     parseEntityObjects(entities: dxfEntity[]): string[] {
         const values: string[] = [];
         for (const entity of entities) {
-            if (!isShapeEntity(entity)) continue;
-            const blockValues = this.parseBlockValues(entity);
-            values.push(LWPOLYLINE);
-            values.push(...blockValues);
-            values.push(AC_DB_ENTITY);
-            values.push(`  8`);
-            values.push(entity.layer);
-            values.push(AC_DB_POLYLINE);
-            values.push(` 90`)
-            values.push(`        ${entity.vertices.length}`)
-            values.push(` 70`)
-            values.push(`     ${entity.shape ? 1 : 0}`)
-            // what is hasContinuousLinetypePattern?
-            values.push(` 43`)
-            values.push(`0.0`);
-            for (const pair of entity.vertices) {
-                const pointValues = this.writePair(` 10`, ` 20`, pair);
-                values.push(...pointValues)
+            if (isLWPOLYLINE(entity)) {
+                const blockValues = this.parseBlockValues(entity);
+                values.push(LWPOLYLINE);
+                values.push(...blockValues);
+                values.push(AC_DB_ENTITY);
+                values.push(`  8`);
+                values.push(entity.layer);
+                values.push(AC_DB_POLYLINE);
+                values.push(` 90`)
+                values.push(`        ${entity.vertices.length}`)
+                values.push(` 70`)
+                values.push(`     ${entity.shape ? 1 : 0}`)
+                // what is hasContinuousLinetypePattern?
+                values.push(` 43`)
+                values.push(`0.0`);
+                for (const pair of entity.vertices) {
+                    const pointValues = this.writePair(` 10`, ` 20`, pair);
+                    values.push(...pointValues)
+                }
             }
         }
         return values;

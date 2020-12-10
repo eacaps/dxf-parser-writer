@@ -22,21 +22,42 @@ export interface blockObject extends dxfBlock {
 
 export interface dxfEntity extends dxfBlock { };
 
-export type shapeType = 'LWPOLYLINE';
+export type shapeType = 'LWPOLYLINE' | 'POLYLINE' | 'VERTEX';
 
 export interface shapeEntity extends dxfEntity {
     type: shapeType;
-    vertices: xyPair[];
+    vertices: xyPair[] | polylineVertex[];
     layer: string;
-    shape: boolean;
-    hasContinuousLinetypePattern: boolean;
+    shape?: boolean;
+    hasContinuousLinetypePattern?: boolean;
+    color?: number;
+    colorIndex?: number;
+    lineweight?: number;
 }
 
-export function isShapeEntity(thing: any): thing is shapeEntity {
+export interface lwPolylineShapeEntity extends shapeEntity {
+    type: 'LWPOLYLINE';
+    vertices: xyPair[];
+}
+
+export interface polylineVertex extends shapeEntity, xyzTriplet {
+    type: 'VERTEX';
+}
+
+export interface polylineShapeEntity extends shapeEntity {
+    type: 'POLYLINE';
+    vertices: polylineVertex[];
+}
+
+export function isLWPOLYLINE(thing: any): thing is lwPolylineShapeEntity {
     return thing.type && thing.type == 'LWPOLYLINE';
 }
 
-export type xyzTriplet = {
+export function isPOLYLINE(thing: any): thing is polylineShapeEntity {
+    return thing.type && thing.type == 'POLYLINE';
+}
+
+export interface xyzTriplet {
     "x": number,
     "y": number,
     "z": number

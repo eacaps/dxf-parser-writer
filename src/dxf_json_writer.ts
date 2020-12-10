@@ -1,4 +1,4 @@
-import JsonParser from './lib/dxf/json_parser';
+import JsonParser from './lib/dxf/json-parser';
 import { readFileSync } from 'fs';
 import { dxfJson } from './lib/dxf/dxf';
 
