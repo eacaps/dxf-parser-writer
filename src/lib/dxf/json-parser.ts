@@ -4,9 +4,13 @@ import { AC_DB_BLOCK_BEGIN, AC_DB_BLOCK_END, AC_DB_ENTITY, AC_DB_LAYER_TABLE_REC
 export default class JsonParser {
 
     constructor() {
-
     }
 
+    /**
+     * parseJson turns a dxfJson into a string array representing the json in
+     * dxf format
+     * @param dxf the JSON object to turn into a dxf
+     */
     parseJson(dxf: dxfJson): string[] {
         const header = this.parseHeader(dxf.header);
         const tables = this.parseTables(dxf.tables);
@@ -21,6 +25,11 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * parseEntities parses the entity block of the dxfJson and returns a
+     * whole section
+     * @param entities the entities to convert
+     */
     parseEntities(entities: dxfEntity[]): string[] {
         const shapes = this.parseEntityObjects(entities);
         return [SECTION,
@@ -30,11 +39,17 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * parseEntityObjects iterates over the dxfEntity objects and turns them
+     * into string arrays
+     * @param entities the entities to convert
+     */
     parseEntityObjects(entities: dxfEntity[]): string[] {
+        // TODO: refactor to take a single entity
         const values: string[] = [];
         for (const entity of entities) {
             if (isLWPOLYLINE(entity)) {
-                const blockValues = this.parseBlockValues(entity);
+                const blockValues = this.writeBlockValues(entity);
                 values.push(LWPOLYLINE);
                 values.push(...blockValues);
                 values.push(AC_DB_ENTITY);
@@ -57,6 +72,11 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * parseBlocks parses the blocks block of the dxfJson and returns a whole
+     * section
+     * @param blocks the blocks to convert
+     */
     parseBlocks(blocks: blockTypeObject): string[] {
         const blockValues = this.parseBlocksObject(blocks);
         return [
@@ -67,7 +87,13 @@ export default class JsonParser {
         ]
     }
 
+    /**
+     * parseBlocksObject iterates over the blockTypeObjects and turns them into
+     * string arrays
+     * @param blocks the blocks to convert 
+     */
     parseBlocksObject(blocks: blockTypeObject): string[] {
+        // TODO: refactor to do one block
         const values: string[] = [];
         for (const k in blocks) {
             const block = blocks[k];
@@ -110,6 +136,11 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * parseTables parses the tables block of the dxfJson and returns a whole
+     * section
+     * @param tables the tables to convert
+     */
     parseTables(tables: dxfTables): string[] {
         const viewPortContainerValues = this.parseViewPortContainer(tables.viewPort);
         const lineTypeContainerValues = this.parseLineTypeContainer(tables.lineType);
@@ -124,8 +155,12 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * parseLayerContainer processes the layer table
+     * @param layer the layer container object
+     */
     parseLayerContainer(layer: dxfLayerContainer): string[] {
-        const blockValues = this.parseBlockValues(layer);
+        const blockValues = this.writeBlockValues(layer);
         const layers = this.parseLayers(layer.layers, layer.handle);
         const layerCount = Object.keys(layer.layers).length;
 
@@ -140,7 +175,14 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * parseLayers iterates over the dxfLayer objects and turns them into
+     * string arrays
+     * @param layerObject the layer map object
+     * @param handle the handle for the layer object
+     */
     parseLayers(layerObject: layerObject, handle: string): string[] {
+        // TODO: do one layer here
         const values: string[] = [];
         for (const k in layerObject) {
             const layer = layerObject[k];
@@ -174,8 +216,12 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * parseLineTypeContainer processes the lineType table
+     * @param layer the lineType container object
+     */
     parseLineTypeContainer(lineType: dxfLineTypeContainer): string[] {
-        const blockValues = this.parseBlockValues(lineType);
+        const blockValues = this.writeBlockValues(lineType);
         const linetypes = this.parseLineTypes(lineType.lineTypes, lineType.handle);
         return [
             TABLE,
@@ -187,8 +233,15 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * parseLineTypes iterates over the dxfLineType objects and turns them
+     * into string arrays
+     * @param lineTypeObject the lineType map object
+     * @param handle the handle for the lineType object
+     */
     parseLineTypes(lineTypeObject: lineTypeObject, handle: string): string[] {
         const values: string[] = [];
+        // TODO: one dxfLineType here
         for (const k in lineTypeObject) {
             const lineType = lineTypeObject[k];
             values.push(INNER_LTYPE);
@@ -215,8 +268,12 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * parseViewPortContainer processes the viewport table
+     * @param viewPort the viewport container object
+     */
     parseViewPortContainer(viewPort: dxfViewportContainer): string[] {
-        const blockValues = this.parseBlockValues(viewPort);
+        const blockValues = this.writeBlockValues(viewPort);
         const viewports = this.parseViewPorts(viewPort.viewPorts, viewPort.handle);
         return [
             TABLE,
@@ -228,6 +285,12 @@ export default class JsonParser {
         ];
     }
 
+    /**
+     * parseViewPorts iterates over the dxfViewport objects and turns them
+     * into string arrays
+     * @param viewPorts the viewports to convert
+     * @param handle the handle for the viewport object
+     */
     parseViewPorts(viewPorts: dxfViewport[], handle: string): string[] {
         const values: string[] = [];
         for (const viewPort of viewPorts) {
@@ -347,6 +410,13 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * writePair takes the strings that should preceed each value of a pair
+     * and writes a 4 length string array
+     * @param xString the string to preceed the x value
+     * @param yString the string to preceed the y value
+     * @param pair the pair to write
+     */
     writePair(xString: string, yString: string, pair: xyPair): string[] {
         const values = [];
         values.push(xString);
@@ -356,6 +426,14 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * writeTriplet takes the strings that should preceed each value of a triplet
+     * and writes a 6 length string array
+     * @param xString the string to preceed the x value
+     * @param yString the string to preceed the y value
+     * @param zString the string to preceed the z value
+     * @param triplet the triple to write
+     */
     writeTriplet(xString: string, yString: string, zString: string, triplet: xyzTriplet): string[] {
         const values = [];
         values.push(xString);
@@ -367,7 +445,12 @@ export default class JsonParser {
         return values;
     }
 
-    parseBlockValues(block: dxfBlock): string[] {
+    /**
+     * writeBlockValues is a utility method to read a block and write the basic
+     * values to a string array 
+     * @param block the block element
+     */
+    writeBlockValues(block: dxfBlock): string[] {
         const values = [];
         // if(block.handle) {
         values.push(`  5`);
@@ -378,6 +461,11 @@ export default class JsonParser {
         return values;
     }
 
+    /**
+     * parseHeader iterates over the keys in the header and writes out the
+     * string array for each value using the getHeaderValueString method
+     * @param header the header section
+     */
     parseHeader(header: dxfHeader): string[] {
         const values: string[] = [];
         // dope: https://effectivetypescript.com/2020/05/26/iterate-objects/
@@ -456,6 +544,9 @@ export default class JsonParser {
     }
 }
 
+/**
+ * dxfHeaderGroupType provides a mapping of values for use in constructing the header
+ */
 export const dxfHeaderGroupType: { [key in dxfHeaderKeys]: number | numberPair | numberTriplet } = {
     "$ACADVER": 1,
     "$ACADMAINTVER": 70,

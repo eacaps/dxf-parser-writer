@@ -1,3 +1,6 @@
+/**
+ * dxfJson describes the output JSON format for the dxf-parser
+ */
 export interface dxfJson {
     header: dxfHeader,
     tables: {
@@ -9,8 +12,16 @@ export interface dxfJson {
     entities: dxfEntity[]
 }
 
+/**
+ * blockTypeObject describes a key value object that makes up the blocks
+ * section of a dxfJson
+ */
 export interface blockTypeObject { [key: string]: blockObject };
 
+/**
+ * blockObject describes an object in the block section. This interface
+ * extends dxfBlock
+ */
 export interface blockObject extends dxfBlock {
     layer: string;
     paperSpace?: boolean;
@@ -20,10 +31,20 @@ export interface blockObject extends dxfBlock {
     xrefPath: string;
 }
 
+/**
+ * dxfEntity is a blank interface that extends blockObject
+ */
 export interface dxfEntity extends dxfBlock { };
 
+/**
+ * shapeType is a type listing of supported shapes.
+ */
 export type shapeType = 'LWPOLYLINE' | 'POLYLINE' | 'VERTEX';
 
+
+/**
+ * shapeEntity describes a dxfEntity that is a shape
+ */
 export interface shapeEntity extends dxfEntity {
     type: shapeType;
     vertices: xyPair[] | polylineVertex[];
@@ -35,54 +56,93 @@ export interface shapeEntity extends dxfEntity {
     lineweight?: number;
 }
 
+/**
+ * lwPolylineShapeEntity is a shapeEntity that contains a list of
+ * xyPair vertices
+ */
 export interface lwPolylineShapeEntity extends shapeEntity {
     type: 'LWPOLYLINE';
     vertices: xyPair[];
 }
 
-export interface polylineVertex extends shapeEntity, xyzTriplet {
-    type: 'VERTEX';
-}
-
+/**
+ * polylineShapeEntity is a shapeEntity that contains a list of
+ * polylineVertices
+ */
 export interface polylineShapeEntity extends shapeEntity {
     type: 'POLYLINE';
     vertices: polylineVertex[];
 }
 
+/**
+ * polylineVertex extends both shapeEntity and xyzTriplet to form a vertex
+ * object
+ */
+export interface polylineVertex extends shapeEntity, xyzTriplet {
+    type: 'VERTEX';
+}
+
+/**
+ * isLWPOLYLINE is a typeguard for checking if a dxfEntity is a LWPOLYLINE
+ * @param thing the thing to check
+ */
 export function isLWPOLYLINE(thing: any): thing is lwPolylineShapeEntity {
     return thing.type && thing.type == 'LWPOLYLINE';
 }
 
+/**
+ * isPOLYLINE is a typeguard for checking if a dxfEntity is a POLYLINE
+ * @param thing the thing to check
+ */
 export function isPOLYLINE(thing: any): thing is polylineShapeEntity {
     return thing.type && thing.type == 'POLYLINE';
 }
 
+/**
+ * xyzTriplet describes a 3d point
+ */
 export interface xyzTriplet {
     "x": number,
     "y": number,
     "z": number
 };
 
+/**
+ * describes a 2d point
+ */
 export type xyPair = {
     "x": number,
     "y": number
 }
 
+/**
+ * dxfBlock describes a basic entry in a dxf file with handle and ownerHandle
+ * references
+ */
 export interface dxfBlock {
     handle: string;
     ownerHandle: string;
 }
 
+/**
+ * dxfTables describes tables in the dxf file
+ */
 export interface dxfTables {
     viewPort: dxfViewportContainer;
     lineType: dxfLineTypeContainer;
     layer: dxfLayerContainer;
 }
 
+/**
+ * dxfViewportContainer is a dxfBlock that contains multiple viewPorts
+ */
 export interface dxfViewportContainer extends dxfBlock {
     viewPorts: dxfViewport[];
 }
 
+/**
+ * dxfViewport describes a viewport?
+ */
 export interface dxfViewport {
     name: string;
     ownerHandle: string;
@@ -108,24 +168,44 @@ export interface dxfViewport {
     ambientColor: number;
 }
 
+/**
+ * lineTypeObject describes a key value object that makes up the lineTypes
+ * section of a dxfLineTypeContainer
+ */
 export interface lineTypeObject { [key: string]: dxfLineType };
 
+/**
+ * dxfLineTypeContainer is a dxfBlock that contains a map of lineTypeObjects
+ */
 export interface dxfLineTypeContainer extends dxfBlock {
     lineTypes: lineTypeObject
 }
 
+/**
+ * dxfLineType describes a line type
+ */
 export interface dxfLineType {
     name: string;
     description: string;
     patternLength: number;
 }
 
+/**
+ * layerObject describes a key value object that makes up the layers
+ * section of a dxfLayerContainer
+ */
 export interface layerObject { [key: string]: dxfLayer };
 
+/**
+ * dxfLayerContainer is a dxfBlock that contains a map of layerObjects
+ */
 export interface dxfLayerContainer extends dxfBlock {
     layers: layerObject;
 }
 
+/**
+ * dxfLayer describes a layer
+ */
 export interface dxfLayer {
     name: string;
     frozen: boolean;
@@ -134,6 +214,9 @@ export interface dxfLayer {
     color: number;
 }
 
+/**
+ * dxfHeader lists a whole lot of header values and their types
+ */
 export interface dxfHeader {
     "$ACADVER": string,
     "$ACADMAINTVER": number,
@@ -394,7 +477,16 @@ export interface dxfHeader {
     "$INTERFEREVPVS"?: number
 }
 
+/**
+ * dxfHeaderKeys provides a keyof typing for dxfHeader
+ */
 export type dxfHeaderKeys = keyof dxfHeader;
 
+/**
+ * numberPair describes a pair of numbers
+ */
 export type numberPair = [number, number];
+/**
+ * numberTriplet describes a set of 3 numbers
+ */
 export type numberTriplet = [number, number, number];
